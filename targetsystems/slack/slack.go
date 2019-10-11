@@ -8,17 +8,29 @@ import (
 	"time"
 )
 
+//Config for Slack
+type Config struct {
+	ConfigType string
+	URL        string
+}
+
 //RequestBody struct for data being sent to Slack
 type RequestBody struct {
 	Text string `json:"text"`
 }
 
+//NewConfig returns a new Config
+func NewConfig(URL string) Config {
+	newConfig := Config{ConfigType: "Slack", URL: URL}
+	return newConfig
+}
+
 // SendNotification will post to an 'Incoming Webook' url setup in Slack Apps. It accepts
 // some text and the slack channel is saved within Slack.
-func SendNotification(webhookURL string, msg string) error {
+func (c Config) SendNotification(msg string) error {
 
 	slackBody, _ := json.Marshal(RequestBody{Text: msg})
-	req, err := http.NewRequest(http.MethodPost, webhookURL, bytes.NewBuffer(slackBody))
+	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
 	if err != nil {
 		return err
 	}

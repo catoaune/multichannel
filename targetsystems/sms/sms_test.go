@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/catoaune/multichannel/targetsystems/slack"
+	"github.com/catoaune/multichannel/targetsystems/sms"
 )
 
 func TestSendNotification(t *testing.T) {
@@ -25,8 +25,8 @@ func TestSendNotification(t *testing.T) {
 
 	//ok(t, err)
 	//equals(t, []byte("OK"), body)
-	slackConfig := slack.NewConfig(server.URL)
-	err := slackConfig.SendNotification("Dette er en test")
+	smsConfig := sms.NewConfig(server.URL)
+	err := smsConfig.SendNotification("Dette er en test")
 	if err != nil {
 		t.Errorf("Expected nil but got %v.", err)
 	}

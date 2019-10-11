@@ -8,5 +8,6 @@ import (
 
 func main() {
 	channel := os.Getenv("slack_url")
-	slack.SendNotification(channel, "Hei på deg!")
+	slackConfig := slack.NewConfig(channel)
+	slackConfig.SendNotification("Hei på deg!")
 }

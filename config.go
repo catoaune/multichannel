@@ -1,8 +1,8 @@
 package multichannel
 
 //ConfigItem contains the configuration for one channel or service, like Slack or Twitter
-type ConfigItem struct {
-	URL string
+type ConfigItem interface {
+	SendNotification(message string)
 }
 
 //Configuration is a map containing ConfigurationItems for each available channel or service
