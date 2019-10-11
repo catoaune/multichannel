@@ -1,4 +1,4 @@
-package slack_test
+package sms_test
 
 import (
 	"net/http"

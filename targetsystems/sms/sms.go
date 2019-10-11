@@ -17,6 +17,7 @@ func NewConfig(URL string) Config {
 	return newConfig
 }
 
+//SendNotification will send the message msg as sms
 func (c Config) SendNotification(msg string) error {
 	return nil
 }
