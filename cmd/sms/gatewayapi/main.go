@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/catoaune/multichannel/targetsystems/sms/gatewayapi"
 )
@@ -9,6 +10,8 @@ import (
 func main() {
 	key := os.Getenv("key")
 	secret := os.Getenv("secret")
+	msg := os.Args[1]
+	receipient, _ := strconv.ParseUint(os.Args[1], 10, 64)
 	gatewayapiConfig := gatewayapi.NewConfig(key, secret, "MultiChannel")
-	gatewayapiConfig.SendNotification("Hei på deg!")
+	gatewayapiConfig.SendNotification(msg, receipient)
 }
