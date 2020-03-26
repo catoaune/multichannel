@@ -1,7 +1,7 @@
 package twilio_test
 
 import (
-	"github.com/catoaune/multichannel/targetsystems/sms/gatewayapi"
+	"github.com/catoaune/multichannel/channel/sms/twilio"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -25,9 +25,9 @@ func TestSendNotification(t *testing.T) {
 
 	//ok(t, err)
 	//equals(t, []byte("OK"), body)
-	twilioConfig := gatewayapi.NewConfig("key", "secret", "SMS sender")
+	twilioConfig := twilio.NewConfig("key", "secret", "SMS sender")
 	twilioConfig.URL = server.URL // Override with test URL
-	err := twilioConfig.SendNotification("This is a test", 1234567890)
+	err := twilioConfig.SendNotification("This is a test", "1234567890")
 	if err != nil {
 		t.Errorf("Expected nil but got %v.", err)
 	}

@@ -5,26 +5,18 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/catoaune/multichannel/targetsystems/slack"
+	"github.com/catoaune/multichannel/channel/slack"
 )
 
 func TestSendNotification(t *testing.T) {
 	// Start a local HTTP server
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		// Test request parameters
-		//quals(t, req.URL.String(), "/some/path")
 		// Send response to be tested
 		rw.Write([]byte(`ok`))
 	}))
 	// Close the server when test finishes
 	defer server.Close()
 
-	// Use Client & URL from our local test server
-	//api := API{server.Client(), server.URL}
-	//body, err := api.DoStuff()
-
-	//ok(t, err)
-	//equals(t, []byte("OK"), body)
 	slackConfig := slack.NewConfig(server.URL)
 	err := slackConfig.SendNotification("Dette er en test")
 	if err != nil {

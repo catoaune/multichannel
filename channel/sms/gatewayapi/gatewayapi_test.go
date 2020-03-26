@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/catoaune/multichannel/targetsystems/sms/gatewayapi"
+	"github.com/catoaune/multichannel/channel/sms/gatewayapi"
 )
 
 func TestSendNotification(t *testing.T) {
