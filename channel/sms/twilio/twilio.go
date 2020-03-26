@@ -1,3 +1,5 @@
+// Package twilio implements functions for sending sms using Twilio (www.twilio.com) as service provider
+// You need a Twilio subscription to be able to send sms
 package twilio
 
 import (
@@ -45,8 +47,7 @@ func (c Config) SendNotification(msg string, recipient string) error {
 		if err == nil {
 			log.Println(data["sid"])
 		}
-	} else {
-		return errors.New("Res: " + resp.Status)
+		return nil
 	}
-	return nil
+	return errors.New("Res: " + resp.Status)
 }

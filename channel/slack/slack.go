@@ -1,3 +1,5 @@
+// Package slack implements functions for sending messages to a Slack channel
+// You need a Slack incoming webhook url to be able to messages to a Slack channel
 package slack
 
 import (

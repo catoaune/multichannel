@@ -1,3 +1,5 @@
+// Package gatewayapi implements functions for sending sms using GatewayAPI (www.gatewayapi.com) as service provider
+// You need a GatewayAPI subscription to be able to send sms
 package gatewayapi
 
 import (

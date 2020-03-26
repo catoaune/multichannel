@@ -1,11 +1,10 @@
 package slack_test
 
 import (
+	"github.com/catoaune/multichannel/channel/slack"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/catoaune/multichannel/channel/slack"
 )
 
 func TestSendNotification(t *testing.T) {
