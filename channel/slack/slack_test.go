@@ -17,9 +17,13 @@ func TestSendNotification(t *testing.T) {
 	defer server.Close()
 
 	slackConfig := slack.NewConfig(server.URL)
-	err := slackConfig.SendNotification("Dette er en test")
-	if err != nil {
-		t.Errorf("Expected nil but got %v.", err)
+	err1 := slackConfig.SendNotification("Dette er en test")
+	if err1 != nil {
+		t.Errorf("Expected nil but got %v.", err1)
+	}
+	err2 := slackConfig.SendFormattedNotification("Dette er en test")
+	if err2 != nil {
+		t.Errorf("Expected nil but got %v.", err2)
 	}
 
 }
