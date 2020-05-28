@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 //Config for PSWinCom sms service
@@ -28,7 +29,7 @@ func NewConfig(username string, password string, from string) Config {
 func (c Config) SendNotification(msg string, recipient string) error {
 	requestData := "USER=" + c.username
 	requestData += "&PW=" + c.password
-	requestData += "&RCV=" + recipient
+	requestData += "&RCV=" + formatNumber(recipient)
 	requestData += "&SND=" + c.from
 	requestData += "&TXT=" + url.QueryEscape(msg)
 	log.Println("Req: " + requestData)
@@ -44,4 +45,9 @@ func (c Config) SendNotification(msg string, recipient string) error {
 		return errors.New(string(resp.StatusCode) + " " + resp.Status)
 	}
 	return nil
+}
+
+func formatNumber(phoneNumber string) string {
+	formatted := strings.Replace(phoneNumber, "+", "", -1)
+	return strings.Replace(formatted, " ", "", -1)
 }
