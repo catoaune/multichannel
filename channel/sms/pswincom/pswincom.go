@@ -39,7 +39,7 @@ func (c Config) SendNotification(msg string, recipient string) error {
 
 	resp, _ := client.Do(request)
 	if resp.StatusCode < 200 && resp.StatusCode >= 300 {
-		errors.New(string(resp.StatusCode) + " " + resp.Status)
+		return errors.New(string(resp.StatusCode) + " " + resp.Status)
 	}
 	return nil
 }
