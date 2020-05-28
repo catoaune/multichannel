@@ -36,7 +36,7 @@ type smsResponse struct {
 
 //NewConfig returns a new Config
 func NewConfig(sender string, username string, password string, platformID string, platformPartnerID string ) Config {
-	newConfig := Config{ConfigType: "SMS", URL: "https://gatewayapi.com/rest/mtsms", sender: sender, username: username, password: password, platformID: platformID, platformPartnerID: platformPartnerID}
+	newConfig := Config{ConfigType: "SMS", URL: "https://no.linkmobility.io/sms", sender: sender, username: username, password: password, platformID: platformID, platformPartnerID: platformPartnerID}
 	return newConfig
 }
 
