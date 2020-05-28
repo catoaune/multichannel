@@ -3,6 +3,7 @@ package pswincom
 import (
 	"bytes"
 	"errors"
+	"log"
 	"net/http"
 )
 
@@ -29,7 +30,7 @@ func (c Config) SendNotification(msg string, recipient string) error {
 	requestData += "RCV=" + recipient
 	requestData += "SND=" + c.from
 	requestData += "TXT=" + msg
-
+	log.Println("Req: " + requestData)
 	client := &http.Client{}
 	b := bytes.NewBuffer([]byte(requestData))
 	request, _ := http.NewRequest("POST", c.URL, b)
