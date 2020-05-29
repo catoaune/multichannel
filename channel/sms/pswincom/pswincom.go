@@ -35,7 +35,7 @@ func (c Config) SendNotification(msg string, recipient string) error {
 	request, _ := http.NewRequest("POST", c.URL, b)
 
 	request.Header.Add("Content-Length", string(len(requestData)))
-	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	request.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
 
 	resp, _ := client.Do(request)
 	if resp.StatusCode < 200 && resp.StatusCode >= 300 {
