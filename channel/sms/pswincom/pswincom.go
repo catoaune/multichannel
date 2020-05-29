@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"unicode/utf8"
 )
 
 //Config for PSWinCom sms service
@@ -33,13 +32,12 @@ func (c Config) SendNotification(msg string, recipient string) error {
 	requestData += "&RCV=" + formatNumber(recipient)
 	requestData += "&SND=" + c.from
 	requestData += "&TXT=" + url.QueryEscape(msg)
-	rData := StringToAsciiBytes(requestData)
 	log.Println("Req: " + requestData)
 	client := &http.Client{}
 	b := bytes.NewBuffer([]byte(requestData))
 	request, _ := http.NewRequest("POST", c.URL, b)
 
-	request.Header.Add("Content-Length", string(len(rData)))
+	request.Header.Add("Content-Length", string(len(requestData)))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
 
 	resp, _ := client.Do(request)
@@ -54,13 +52,3 @@ func formatNumber(phoneNumber string) string {
 	return strings.Replace(formatted, " ", "", -1)
 }
 
-
-func StringToAsciiBytes(s string) []byte {
-	t := make([]byte, utf8.RuneCountInString(s))
-	i := 0
-	for _, r := range s {
-		t[i] = byte(r)
-		i++
-	}
-	return t
-}
