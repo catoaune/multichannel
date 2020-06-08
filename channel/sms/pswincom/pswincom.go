@@ -2,6 +2,7 @@ package pswincom
 
 import (
 	"bytes"
+	"encoding/xml"
 	"errors"
 	"log"
 	"net/http"
@@ -18,6 +19,24 @@ type Config struct {
 	from       string
 }
 
+type smsMessages struct {
+	XMLName xml.Name `xml:"SESSION"`
+	Text    string   `xml:",chardata"`
+	username  string   `xml:"CLIENT"`
+	password      string   `xml:"PW"`
+	msglst  struct {
+		Text string `xml:",chardata"`
+		msg  []struct {
+			Text string `xml:",chardata"`
+			ID   string `xml:"ID"`
+			message string `xml:"TEXT"`
+			sender  string `xml:"SND"`
+			receiver  string `xml:"RCV"`
+			operation   string `xml:"OP"`
+			class string `xml:"CLASS"`
+		} `xml:"MSG"`
+	} `xml:"MSGLST"`
+}
 
 //NewConfig returns a new Config
 func NewConfig(username string, password string, from string) Config {
@@ -47,6 +66,9 @@ func (c Config) SendNotification(msg string, recipient string) error {
 	return nil
 }
 
+func (sm smsMessages) setTextAsHex(text string) {
+
+}
 func formatNumber(phoneNumber string) string {
 	formatted := strings.Replace(phoneNumber, "+", "", -1)
 	return strings.Replace(formatted, " ", "", -1)
