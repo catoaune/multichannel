@@ -31,9 +31,9 @@ type Msg  struct {
 }
 
 type Msglst struct {
-	xmlName xml.Name `xml:"MSGLST"`
+	XMLName xml.Name `xml:"MSGLST"`
 	Text string `xml:",chardata"`
-	Msg `xml:"MSG"`
+	Msg
 }
 
 type smsMessages struct {
@@ -41,7 +41,7 @@ type smsMessages struct {
 	Text    string   `xml:",chardata"`
 	Username  string   `xml:"CLIENT"`
 	Password      string   `xml:"PW"`
-	Msglst `xml:"MSGLST"`
+	Msglst
 }
 
 //NewConfig returns a new Config
