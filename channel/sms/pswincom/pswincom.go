@@ -19,49 +19,48 @@ type Config struct {
 	from       string
 }
 
-type msg  struct {
+type Msg  struct {
 	Text string `xml:",chardata"`
 	ID   string `xml:"ID"`
-	message string `xml:"TEXT"`
-	sender  string `xml:"SND"`
-	receiver  string `xml:"RCV"`
-	operation   string `xml:"OP"`
-	class string `xml:"CLASS"`
+	Message string `xml:"TEXT"`
+	Sender  string `xml:"SND"`
+	Receiver  string `xml:"RCV"`
+	Operation   string `xml:"OP"`
+	Class string `xml:"CLASS"`
 }
 
-type msglst struct {
+type Msglst struct {
 	Text string `xml:",chardata"`
-	msg `xml:"MSG"`
+	Msg `xml:"MSG"`
 }
 
 type smsMessages struct {
 	XMLName xml.Name `xml:"SESSION"`
 	Text    string   `xml:",chardata"`
-	username  string   `xml:"CLIENT"`
-	password      string   `xml:"PW"`
-	msglst `xml:"MSGLST"`
+	Username  string   `xml:"CLIENT"`
+	Password      string   `xml:"PW"`
+	Msglst `xml:"MSGLST"`
 }
 
 //NewConfig returns a new Config
 func NewConfig(username string, password string, from string) Config {
-	newConfig := Config{ConfigType: "SMS", URL: "https://simple.pswin.com", username: username, password: password, from: from}
+	newConfig := Config{ConfigType: "SMS", URL: "https://xml.pswin.com", username: username, password: password, from: from}
 	return newConfig
 }
 
 //SendNotification sends msg to recipient as SMS
 func (c Config) SendNotification(message string, recipient string) error {
 
-	mess := msg{
-		message:   textAsHex(message),
-		sender:    c.from,
-		receiver:  formatNumber(recipient),
-		operation: "9",
-		class:     "3",
+	mess := Msg{
+		Message:   textAsHex(message),
+		Sender:    c.from,
+		Receiver:  formatNumber(recipient),
+		Operation: "9",
 	}
-	list := msglst{
-		msg:  mess,
+	list := Msglst{
+		Msg:  mess,
 	}
-	sms := smsMessages{username: c.username, password: c.password, msglst: list}
+	sms := smsMessages{Username: c.username, Password: c.password, Msglst: list}
 
 //	requestData := "USER=" + c.username
 //	requestData += "&PW=" + c.password
