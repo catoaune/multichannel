@@ -67,10 +67,11 @@ func (c Config) SendNotification(message string, recipient string) error {
 //	requestData += "&RCV=" + formatNumber(recipient)
 //	requestData += "&SND=" + c.from
 //	requestData += "&TXT=" + url.QueryEscape(msg)
-	log.Printf("Req: %v", sms)
+
 	client := &http.Client{}
 //	b := bytes.NewBuffer([]byte(requestData))
 	x, _ := xml.Marshal(sms)
+	log.Printf("Req: %v", x)
 	b := bytes.NewBuffer([]byte(x))
 	request, _ := http.NewRequest("POST", c.URL, b)
 
