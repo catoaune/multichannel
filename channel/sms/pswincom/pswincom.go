@@ -71,7 +71,7 @@ func (c Config) SendNotification(message string, recipient string) error {
 	client := &http.Client{}
 //	b := bytes.NewBuffer([]byte(requestData))
 	x, _ := xml.Marshal(sms)
-	log.Printf("Req: %v", x)
+	log.Printf("Req: %v", string(x))
 	b := bytes.NewBuffer([]byte(x))
 	request, _ := http.NewRequest("POST", c.URL, b)
 
