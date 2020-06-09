@@ -3,7 +3,6 @@ package pswincom
 import (
 	"bytes"
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -33,7 +32,7 @@ type Msg  struct {
 type Msglst struct {
 	XMLName xml.Name `xml:"MSGLST"`
 	Text string `xml:",chardata"`
-	Msg
+	Msg `xml:"MSG"`
 }
 
 type smsMessages struct {
@@ -41,7 +40,7 @@ type smsMessages struct {
 	Text    string   `xml:",chardata"`
 	Username  string   `xml:"CLIENT"`
 	Password      string   `xml:"PW"`
-	Msglst
+	Msglst `xml:"MSGLST"`
 }
 
 //NewConfig returns a new Config
@@ -71,7 +70,7 @@ func (c Config) SendNotification(message string, recipient string) error {
 //	requestData += "&SND=" + c.from
 //	requestData += "&TXT=" + url.QueryEscape(msg)
 
-	client := &http.Client{}
+	//client := &http.Client{}
 //	b := bytes.NewBuffer([]byte(requestData))
 	x, _ := xml.Marshal(sms)
 	log.Printf("Req: %v", string(x))
@@ -81,10 +80,10 @@ func (c Config) SendNotification(message string, recipient string) error {
 	request.Header.Add("Content-Length", string(len(x)))
 	request.Header.Add("Content-Type", "text/xml")
 
-	resp, _ := client.Do(request)
-	if resp.StatusCode < 200 && resp.StatusCode >= 300 {
-		return errors.New(string(resp.StatusCode) + " " + resp.Status)
-	}
+	//resp, _ := client.Do(request)
+	//if resp.StatusCode < 200 && resp.StatusCode >= 300 {
+	//	return errors.New(string(resp.StatusCode) + " " + resp.Status)
+	//}
 	return nil
 }
 
