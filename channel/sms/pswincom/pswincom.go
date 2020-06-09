@@ -65,14 +65,8 @@ func (c Config) SendNotification(message string, recipient string) error {
 	}
 	sms := smsMessages{Username: c.username, Password: c.password, Msglst: list}
 
-//	requestData := "USER=" + c.username
-//	requestData += "&PW=" + c.password
-//	requestData += "&RCV=" + formatNumber(recipient)
-//	requestData += "&SND=" + c.from
-//	requestData += "&TXT=" + url.QueryEscape(msg)
-
 	client := &http.Client{}
-//	b := bytes.NewBuffer([]byte(requestData))
+
 	x, _ := xml.Marshal(sms)
 	log.Printf("Req: %v", string(x))
 	b := bytes.NewBuffer([]byte(x))
@@ -100,4 +94,3 @@ func formatNumber(phoneNumber string) string {
 	formatted := strings.Replace(phoneNumber, "+", "", -1)
 	return strings.Replace(formatted, " ", "", -1)
 }
-
