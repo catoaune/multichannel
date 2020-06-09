@@ -59,6 +59,7 @@ func (c Config) SendNotification(message string, recipient string) error {
 		Sender:    c.from,
 		Receiver:  formatNumber(recipient),
 		Operation: "9",
+		Class: "0",
 	}
 	list := Msglst{
 		Msg:  mess,
