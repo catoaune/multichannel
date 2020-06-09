@@ -20,16 +20,18 @@ type Config struct {
 }
 
 type Msg  struct {
+	XMLName xml.Name `xml:"MSG"`
 	Text string `xml:",chardata"`
 	ID   string `xml:"ID"`
 	Message string `xml:"TEXT"`
 	Sender  string `xml:"SND"`
 	Receiver  string `xml:"RCV"`
 	Operation   string `xml:"OP"`
-	Class string `xml:"CLASS"`
+	Class string `xml:"CLASS,omitempty"`
 }
 
 type Msglst struct {
+	xmlName xml.Name `xml:"MSGLST"`
 	Text string `xml:",chardata"`
 	Msg `xml:"MSG"`
 }
@@ -52,6 +54,7 @@ func NewConfig(username string, password string, from string) Config {
 func (c Config) SendNotification(message string, recipient string) error {
 
 	mess := Msg{
+		ID: "1",
 		Message:   textAsHex(message),
 		Sender:    c.from,
 		Receiver:  formatNumber(recipient),
