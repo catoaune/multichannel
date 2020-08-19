@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -135,6 +136,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string) error
 
 	requestBodyFormatted.Blocks = block
 	slackBody, _ := json.Marshal(requestBodyFormatted)
+	fmt.Println("JSON:\n" + string(slackBody))
 	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
 	if err != nil {
 		return err
