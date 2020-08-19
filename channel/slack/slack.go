@@ -127,6 +127,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string) error
 	accessory.Text.Type = "plain_text"
 	accessory.Text.Text = button
 	accessory.Text.Emoji = true
+	accessory.Value = "Action1"
 	blocks.Type = "section"
 	blocks.Text = *text
 	blocks.Accessory = *accessory
