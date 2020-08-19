@@ -27,11 +27,20 @@ type RequestBodyFormatted struct {
 type Text struct {
 	Type string `json:"type"`
 	Text string `json:"text"`
+	Emoji bool	`json:"emoji,omitempty"`
 }
 type Blocks struct {
 	Type string `json:"type"`
 	Text Text   `json:"text"`
+	Accessory Accessory `json:"accessory,omitempty"`
 }
+
+type Accessory struct {
+	Type string 	`json:"type"`
+	Text Text		`json:"text"`
+	Value string	`json:"text"`
+}
+
 
 //NewConfig returns a new Config
 func NewConfig(URL string) Config {
@@ -77,6 +86,49 @@ func (c Config) SendFormattedNotification(msg string) error {
 	text.Text = msg
 	blocks.Type = "section"
 	blocks.Text = *text
+
+	var block = []Blocks{}
+	block = append(block, *blocks)
+
+	requestBodyFormatted.Blocks = block
+	slackBody, _ := json.Marshal(requestBodyFormatted)
+	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
+	if err != nil {
+		return err
+	}
+
+	req.Header.Add("Content-Type", "application/json")
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(resp.Body)
+	if buf.String() != "ok" {
+		return errors.New("Non-ok response returned from Slack")
+	}
+	return nil
+}
+
+func (c Config) SendFormattedNotificationButton(msg string, button string) error {
+	requestBodyFormatted := new(RequestBodyFormatted)
+	blocks := new(Blocks)
+	text := new(Text)
+	accessory := new(Accessory)
+
+
+	text.Type = "mrkdwn"
+	text.Text = msg
+	accessory.Type = "button"
+	accessory.Text.Type = "plain_text"
+	accessory.Text.Text = button
+	accessory.Text.Emoji = true
+	blocks.Type = "section"
+	blocks.Text = *text
+	blocks.Accessory = *accessory
 
 	var block = []Blocks{}
 	block = append(block, *blocks)
