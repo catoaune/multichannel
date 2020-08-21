@@ -114,7 +114,7 @@ func (c Config) SendFormattedNotification(msg string) error {
 	return nil
 }
 
-func (c Config) SendFormattedNotificationButton(msg string, button string) error {
+func (c Config) SendFormattedNotificationButton(msg string, button string, value string) error {
 	requestBodyFormatted := new(RequestBodyFormatted)
 	blocks := new(Blocks)
 	text := new(Text)
@@ -127,7 +127,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string) error
 	accessory.Text.Type = "plain_text"
 	accessory.Text.Text = button
 	accessory.Text.Emoji = true
-	accessory.Value = "Action1"
+	accessory.Value = value
 	blocks.Type = "section"
 	blocks.Text = *text
 	blocks.Accessory = *accessory
