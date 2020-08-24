@@ -158,3 +158,52 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 	}
 	return nil
 }
+
+// CreateMessageWithButton creates a new empty RequestBodyFormatted and return it
+func (c Config) CreateMessageWithButton() *RequestBodyFormatted {
+	return new(RequestBodyFormatted)
+}
+
+// AddMessage adds a message with a button to the arrays of messages in RequestBodyFormatted
+func (requestBodyFormatted RequestBodyFormatted) AddMessage(msgType string, msg string, buttonLabel string, buttonValue string) {
+	blocks := new(Blocks)
+	text := new(Text)
+	accessory := new(Accessory)
+
+
+	text.Type = msgType
+	text.Text = msg
+	accessory.Type = "button"
+	accessory.Text.Type = "plain_text"
+	accessory.Text.Text = buttonLabel
+	accessory.Text.Emoji = true
+	accessory.Value = buttonValue
+	blocks.Type = "section"
+	blocks.Text = *text
+	blocks.Accessory = *accessory
+	requestBodyFormatted.Blocks = append(requestBodyFormatted.Blocks, *blocks)
+}
+
+func (c Config) sendMessageWithButton(requestBodyFormatted RequestBodyFormatted) error {
+	slackBody, _ := json.Marshal(requestBodyFormatted)
+	fmt.Println("JSON:\n" + string(slackBody))
+	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
+	if err != nil {
+		return err
+	}
+
+	req.Header.Add("Content-Type", "application/json")
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(resp.Body)
+	if buf.String() != "ok" {
+		return errors.New("Non-ok response returned from Slack")
+	}
+	return nil
+}
