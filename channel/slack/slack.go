@@ -185,6 +185,9 @@ func (requestBodyFormatted RequestBodyFormatted) AddMessage(msgType string, msg 
 	blocks.Text = *text
 	blocks.Accessory = *accessory
 	requestBodyFormatted.Blocks = append(requestBodyFormatted.Blocks, *blocks)
+	slackBody, _ := json.Marshal(requestBodyFormatted)
+	fmt.Println("JSON:\n" + string(slackBody))
+
 }
 
 // SendMessageWithButton sends the message requestBodyFormatted
