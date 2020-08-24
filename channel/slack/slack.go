@@ -168,7 +168,7 @@ func (c Config) CreateMessageWithButton() *RequestBodyFormatted {
 }
 
 // AddMessage adds a message with a button to the arrays of messages in RequestBodyFormatted
-func (requestBodyFormatted RequestBodyFormatted) AddMessage(msgType string, msg string, buttonLabel string, buttonValue string) {
+func (requestBodyFormatted *RequestBodyFormatted) AddMessage(msgType string, msg string, buttonLabel string, buttonValue string) {
 	blocks := new(Blocks)
 	text := new(Text)
 	accessory := new(Accessory)
