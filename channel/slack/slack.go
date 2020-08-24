@@ -161,7 +161,10 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 
 // CreateMessageWithButton creates a new empty RequestBodyFormatted and return it
 func (c Config) CreateMessageWithButton() *RequestBodyFormatted {
-	return new(RequestBodyFormatted)
+	requestBodyFormatted := new(RequestBodyFormatted)
+	var block = []Blocks{}
+	requestBodyFormatted.Blocks = block
+	return requestBodyFormatted
 }
 
 // AddMessage adds a message with a button to the arrays of messages in RequestBodyFormatted
