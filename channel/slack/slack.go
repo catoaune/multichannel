@@ -184,7 +184,8 @@ func (requestBodyFormatted RequestBodyFormatted) AddMessage(msgType string, msg 
 	requestBodyFormatted.Blocks = append(requestBodyFormatted.Blocks, *blocks)
 }
 
-func (c Config) sendMessageWithButton(requestBodyFormatted RequestBodyFormatted) error {
+// SendMessageWithButton sends the message requestBodyFormatted
+func (c Config) SendMessageWithButton(requestBodyFormatted RequestBodyFormatted) error {
 	slackBody, _ := json.Marshal(requestBodyFormatted)
 	fmt.Println("JSON:\n" + string(slackBody))
 	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
