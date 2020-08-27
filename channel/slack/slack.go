@@ -205,7 +205,7 @@ func (c Config) SendMessageWithButton(requestBodyFormatted RequestBodyFormatted)
 
 	req.Header.Add("Content-Type", "application/json")
 
-	client := &http.Client{Timeout: 10 * time.Second}
+	client := &http.Client{Timeout: 120 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
