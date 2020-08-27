@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -138,7 +137,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 
 	requestBodyFormatted.Blocks = block
 	slackBody, _ := json.Marshal(requestBodyFormatted)
-	fmt.Println("JSON:\n" + string(slackBody))
+	log.Printf("JSON: %s", string(slackBody))
 	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
 	if err != nil {
 		return err
@@ -187,7 +186,7 @@ func (requestBodyFormatted *RequestBodyFormatted) AddMessage(msgType string, msg
 	blocks.Accessory = *accessory
 	requestBodyFormatted.Blocks = append(requestBodyFormatted.Blocks, *blocks)
 	slackBody, _ := json.Marshal(requestBodyFormatted)
-	fmt.Println("AddMessage JSON:\n" + string(slackBody))
+	log.Printf("AddMessage JSON: %s", string(slackBody))
 
 }
 
@@ -197,7 +196,7 @@ func (c Config) SendMessageWithButton(requestBodyFormatted RequestBodyFormatted)
 	if err != nil {
 		log.Printf("Error in parsing struct to JSON: %+v", err)
 	}
-	fmt.Println("SendMessageWithButton JSON:\n" + string(slackBody))
+	log.Printf("SendMessageWithButton JSON: %s", string(slackBody))
 	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
 	if err != nil {
 		return err
