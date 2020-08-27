@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -192,7 +193,10 @@ func (requestBodyFormatted *RequestBodyFormatted) AddMessage(msgType string, msg
 
 // SendMessageWithButton sends the message requestBodyFormatted
 func (c Config) SendMessageWithButton(requestBodyFormatted RequestBodyFormatted) error {
-	slackBody, _ := json.Marshal(requestBodyFormatted)
+	slackBody, err := json.Marshal(requestBodyFormatted)
+	if err != nil {
+		log.Printf("Error in parsing struct to JSON: %+v", err)
+	}
 	fmt.Println("JSON:\n" + string(slackBody))
 	req, err := http.NewRequest(http.MethodPost, c.URL, bytes.NewBuffer(slackBody))
 	if err != nil {
