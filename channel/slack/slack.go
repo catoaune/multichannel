@@ -62,7 +62,7 @@ func (c Config) SendNotification(msg string) error {
 
 	req.Header.Add("Content-Type", "application/json")
 
-	client := &http.Client{Timeout: 10 * time.Second}
+	client := &http.Client{Timeout: 120 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
@@ -71,7 +71,7 @@ func (c Config) SendNotification(msg string) error {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
 	if buf.String() != "ok" {
-		return errors.New("Non-ok response returned from Slack")
+		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
 	return nil
 }
@@ -101,7 +101,7 @@ func (c Config) SendFormattedNotification(msg string) error {
 
 	req.Header.Add("Content-Type", "application/json")
 
-	client := &http.Client{Timeout: 10 * time.Second}
+	client := &http.Client{Timeout: 120 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
@@ -110,7 +110,7 @@ func (c Config) SendFormattedNotification(msg string) error {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
 	if buf.String() != "ok" {
-		return errors.New("Non-ok response returned from Slack")
+		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
 	return nil
 }
@@ -146,7 +146,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 
 	req.Header.Add("Content-Type", "application/json")
 
-	client := &http.Client{Timeout: 10 * time.Second}
+	client := &http.Client{Timeout: 120 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
@@ -155,7 +155,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
 	if buf.String() != "ok" {
-		return errors.New("Non-ok response returned from Slack")
+		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
 	return nil
 }
@@ -214,7 +214,7 @@ func (c Config) SendMessageWithButton(requestBodyFormatted RequestBodyFormatted)
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
 	if buf.String() != "ok" {
-		return errors.New("Non-ok response returned from Slack")
+		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
 	return nil
 }
