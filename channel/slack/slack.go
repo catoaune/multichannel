@@ -22,6 +22,8 @@ type RequestBody struct {
 	Text string `json:"text"`
 }
 
+
+
 type RequestBodyFormatted struct {
 	Blocks []Blocks `json:"blocks"`
 }
@@ -184,6 +186,20 @@ func (requestBodyFormatted *RequestBodyFormatted) AddMessage(msgType string, msg
 	blocks.Type = "section"
 	blocks.Text = *text
 	blocks.Accessory = *accessory
+	requestBodyFormatted.Blocks = append(requestBodyFormatted.Blocks, *blocks)
+	slackBody, _ := json.Marshal(requestBodyFormatted)
+	log.Printf("AddMessage JSON: %s", string(slackBody))
+
+}
+
+// AddMessage adds a message with a button to the arrays of messages in RequestBodyFormatted
+func (requestBodyFormatted *RequestBodyFormatted) AddMessageWithoutButton(msgType string, msg string) {
+	blocks := new(Blocks)
+	text := new(Text)
+	text.Type = msgType
+	text.Text = msg
+	blocks.Type = "section"
+	blocks.Text = *text
 	requestBodyFormatted.Blocks = append(requestBodyFormatted.Blocks, *blocks)
 	slackBody, _ := json.Marshal(requestBodyFormatted)
 	log.Printf("AddMessage JSON: %s", string(slackBody))
