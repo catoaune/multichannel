@@ -35,7 +35,7 @@ type Text struct {
 type Blocks struct {
 	Type string `json:"type"`
 	Text Text   `json:"text"`
-	Accessory Accessory `json:"accessory,omitempty"`
+	Accessory *Accessory `json:"accessory,omitempty"`
 }
 
 type Accessory struct {
@@ -132,7 +132,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 	accessory.Value = value
 	blocks.Type = "section"
 	blocks.Text = *text
-	blocks.Accessory = *accessory
+	blocks.Accessory = accessory
 
 	var block = []Blocks{}
 	block = append(block, *blocks)
@@ -185,7 +185,7 @@ func (requestBodyFormatted *RequestBodyFormatted) AddMessage(msgType string, msg
 	accessory.Value = buttonValue
 	blocks.Type = "section"
 	blocks.Text = *text
-	blocks.Accessory = *accessory
+	blocks.Accessory = accessory
 	requestBodyFormatted.Blocks = append(requestBodyFormatted.Blocks, *blocks)
 	slackBody, _ := json.Marshal(requestBodyFormatted)
 	log.Printf("AddMessage JSON: %s", string(slackBody))
@@ -196,6 +196,7 @@ func (requestBodyFormatted *RequestBodyFormatted) AddMessage(msgType string, msg
 func (requestBodyFormatted *RequestBodyFormatted) AddMessageWithoutButton(msgType string, msg string) {
 	blocks := new(Blocks)
 	text := new(Text)
+
 	text.Type = msgType
 	text.Text = msg
 	blocks.Type = "section"
