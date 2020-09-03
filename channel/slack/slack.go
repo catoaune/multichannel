@@ -70,7 +70,10 @@ func (c Config) SendNotification(msg string) error {
 	}
 
 	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
+	_, err = buf.ReadFrom(resp.Body)
+	if err != nil {
+		return err
+	}
 	if buf.String() != "ok" {
 		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
@@ -90,7 +93,7 @@ func (c Config) SendFormattedNotification(msg string) error {
 	blocks.Type = "section"
 	blocks.Text = *text
 
-	var block = []Blocks{}
+	var block []Blocks
 	block = append(block, *blocks)
 
 	requestBodyFormatted.Blocks = block
@@ -109,7 +112,10 @@ func (c Config) SendFormattedNotification(msg string) error {
 	}
 
 	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
+	_, err = buf.ReadFrom(resp.Body)
+	if err != nil {
+		return err
+	}
 	if buf.String() != "ok" {
 		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
@@ -134,7 +140,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 	blocks.Text = *text
 	blocks.Accessory = accessory
 
-	var block = []Blocks{}
+	var block []Blocks
 	block = append(block, *blocks)
 
 	requestBodyFormatted.Blocks = block
@@ -154,7 +160,10 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 	}
 
 	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
+	_, err = buf.ReadFrom(resp.Body)
+	if err != nil {
+		return err
+	}
 	if buf.String() != "ok" {
 		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
@@ -164,7 +173,7 @@ func (c Config) SendFormattedNotificationButton(msg string, button string, value
 // CreateMessageWithButton creates a new empty RequestBodyFormatted and return it
 func (c Config) CreateMessageWithButton() *RequestBodyFormatted {
 	requestBodyFormatted := new(RequestBodyFormatted)
-	var block = []Blocks{}
+	var block []Blocks
 	requestBodyFormatted.Blocks = block
 	return requestBodyFormatted
 }
@@ -228,7 +237,10 @@ func (c Config) SendMessageWithButton(requestBodyFormatted RequestBodyFormatted)
 	}
 
 	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
+	_, err = buf.ReadFrom(resp.Body)
+	if err != nil {
+		return err
+	}
 	if buf.String() != "ok" {
 		return errors.New("Non-ok response returned from Slack: " + buf.String())
 	}
